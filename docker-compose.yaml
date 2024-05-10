@@ -1,0 +1,35 @@
+services:
+    order:
+      build:
+        dockerfile: dockerfile.order
+      tty: true
+      #command: sh -c "node index.js"
+      volumes:
+         - ./order:/app
+      working_dir: /app
+      ports:
+        - 3000:3000
+    notification:
+      tty: true
+      image: node:18-alpine
+      #command: sh -c "node index.js"
+      volumes:
+          - ./notification:/app
+      working_dir: /app
+      ports:
+        - 3001:3000
+    rabitmq:
+      image: rabbitmq:3-management
+      ports:
+        - 15672:15672
+        - 5672:5672
+      expose: 
+        - 15672
+        - 5672
+      environment:
+        RABBITMQ_NODENAME : rabbit@localhost
+        RABBITMQ_DEFAULT_USER: midhun
+        RABBITMQ_DEFAULT_PASS: midhun
+volumes:
+   order:
+   notification: 
